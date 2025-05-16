@@ -1,8 +1,6 @@
 #!/usr/bin/ruby
 # frozen_string_literal: true
 
-require 'debug'
-
 score = ARGV[0].split(',')
 
 score.map! { |n| n == 'X' ? Integer(10) : Integer(n) }
