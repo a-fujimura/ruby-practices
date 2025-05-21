@@ -1,11 +1,14 @@
-for i in 1..20
-	if i % 3 == 0 && i % 5 == 0
-  	puts "FizzBuzz"
-  elsif i % 3 == 0
-    puts "Fizz"
-  elsif i % 5 == 0
-    puts "Buzz"
+# frozen_string_literal: true
+
+20.times do |i|
+  counter = i + 1
+  if (counter % 3).zero? && (counter % 5).zero?
+    puts 'FizzBuzz'
+  elsif (counter % 3).zero?
+    puts 'Fizz'
+  elsif (counter % 5).zero?
+    puts 'Buzz'
   else
-    puts i
+    puts counter
   end
 end
