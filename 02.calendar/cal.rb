@@ -16,9 +16,9 @@ def show_calendar(year, month)
 
   (1..date.day).each do |i|
     if i < 10
-      puts " #{i} "
+      printf " #{i} "
     else
-      puts "#{i} "
+      printf "#{i} "
     end
     puts "" if Date.new(year, month, i).saturday?
   end
