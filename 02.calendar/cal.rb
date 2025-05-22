@@ -16,11 +16,15 @@ def show_calendar(year, month)
 
   (1..date.day).each do |i|
     if i < 10
-      printf " #{i} "
+      print " #{i} "
     else
-      printf "#{i} "
+      print "#{i} "
     end
     puts "" if Date.new(year, month, i).saturday?
+  end
+
+  if !date.saturday?
+    puts "" # ターミナルの終端出力(%)を出力しないための改行
   end
 end
 
