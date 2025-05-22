@@ -1,38 +1,38 @@
 #!/usr/bin/ruby
 # frozen_string_literal: true
 
-score = ARGV[0].split(',')
+scores = ARGV[0].split(",")
 
-score.map! { |n| n == 'X' ? Integer(10) : Integer(n) }
+scores = scores.map { |n| n == "X" ? 10 : n.to_i }
 
-frame_cnt = 1
-nageta_cnt = 0
-nageta_total_cnt = 0
-score_total = 0
+frame_count = 1
+throw_count = 0
+throw_total_count = 0
+total_score = 0
 
-score.each do |i|
-  score_total += i
-  next unless frame_cnt < 10
+scores.each do |score|
+  total_score += score
+  next unless frame_count < 10
 
   # ストライク
-  if nageta_cnt.zero? && i > 9
-    score_total += score[nageta_total_cnt + 1]
-    score_total += score[nageta_total_cnt + 2]
-    nageta_cnt = 0
-    frame_cnt += 1
-  # 1投目
-  elsif nageta_cnt.zero?
-    nageta_cnt += 1
-  # 2投目
+  if throw_count.zero? && score == 10
+    total_score += scores[throw_total_count + 1]
+    total_score += scores[throw_total_count + 2]
+    throw_count = 0
+    frame_count += 1
+    # 1投目
+  elsif throw_count.zero?
+    throw_count += 1
+    # 2投目
   else
     # スペア
-    score_total += score[nageta_total_cnt + 1] if score[nageta_total_cnt - 1] + i > 9
+    total_score += scores[throw_total_count + 1] if scores[throw_total_count - 1] + score == 10
 
-    nageta_cnt = 0
-    frame_cnt += 1
+    throw_count = 0
+    frame_count += 1
   end
 
-  nageta_total_cnt += 1
+  throw_total_count += 1
 end
 
-puts score_total
+puts total_score
