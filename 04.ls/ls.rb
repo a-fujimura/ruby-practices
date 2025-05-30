@@ -1,36 +1,29 @@
 #!/usr/bin/env ruby
 # frozen_string_literal: true
 
-files = Dir.glob("#{Dir.pwd}/*")
-length_max = files.max_by(&:length).sub("#{Dir.pwd}/", '').length
-col_cnt = 3
-row_cnt = files.length / col_cnt
+files = Dir.glob("*")
+length_max = files.max_by(&:length).length
+COL_COUNT = 3
+row_count = files.length.ceildiv(COL_COUNT)
+result_list = Array.new(COL_COUNT) { Array.new(row_count, "") }
 
-row_cnt += 1 if (files.length % 3).positive?
-rslt_list = Array.new(col_cnt) { Array.new(row_cnt, '') }
+item_count = 0
 
-item_cnt = 0
+(0..result_list.length - 1).each do |i|
+  (0..result_list[0].length - 1).each do |j|
+    view_str = files[item_count].to_s
+    view_str = view_str.ljust(length_max)
+    item_count += 1
 
-(0..rslt_list.length - 1).each do |i|
-  (0..rslt_list[0].length - 1).each do |j|
-    view_str = if files[item_cnt].nil?
-                 ''
-               else
-                 files[item_cnt].sub("#{Dir.pwd}/", '')
-               end
-
-    view_str += ' ' * (length_max - view_str.length) if view_str.length < length_max
-    item_cnt += 1
-
-    rslt_list[i][j] = view_str
+    result_list[i][j] = view_str
   end
 end
 
-rslt_list = rslt_list.transpose
+result_list = result_list.transpose
 
-(0..rslt_list.length - 1).each do |i|
-  (0..rslt_list[0].length - 1).each do |j|
-    print "#{rslt_list[i][j]}\t"
+(0..result_list.length - 1).each do |i|
+  (0..result_list[0].length - 1).each do |j|
+    print "#{result_list[i][j]}\t"
   end
-  puts ''
+  puts ""
 end
