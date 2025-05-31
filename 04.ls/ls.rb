@@ -5,23 +5,23 @@ files = Dir.glob("*")
 length_max = files.max_by(&:length).length
 COL_COUNT = 3
 row_count = files.length.ceildiv(COL_COUNT)
-result_list = Array.new(COL_COUNT) { Array.new(row_count, "") }
+filenames_matrix = Array.new(COL_COUNT) { Array.new(row_count, "") }
 
 item_count = 0
 
-(0..result_list.length - 1).each do |i|
-  (0..result_list[0].length - 1).each do |j|
+(0..filenames_matrix.length - 1).each do |i|
+  (0..filenames_matrix[0].length - 1).each do |j|
     view_str = files[item_count].to_s
     view_str = view_str.ljust(length_max)
     item_count += 1
 
-    result_list[i][j] = view_str
+    filenames_matrix[i][j] = view_str
   end
 end
 
-result_list = result_list.transpose
+filenames_matrix = filenames_matrix.transpose
 
-(0..result_list.length - 1).each do |i|
-  print result_list[i].join("\t")
+(0..filenames_matrix.length - 1).each do |i|
+  print filenames_matrix[i].join("\t")
   puts
 end
