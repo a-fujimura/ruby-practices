@@ -1,11 +1,11 @@
 #!/usr/bin/env ruby
 # frozen_string_literal: true
 
-files = Dir.glob('*')
+files = Dir.glob("*")
 length_max = files.max_by(&:length).length
 COL_COUNT = 3
 row_count = files.length.ceildiv(COL_COUNT)
-result_list = Array.new(COL_COUNT) { Array.new(row_count, '') }
+result_list = Array.new(COL_COUNT) { Array.new(row_count, "") }
 
 item_count = 0
 
@@ -25,5 +25,5 @@ result_list = result_list.transpose
   (0..result_list[0].length - 1).each do |j|
     print "#{result_list[i][j]}\t"
   end
-  puts ''
+  puts
 end
