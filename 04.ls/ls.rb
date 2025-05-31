@@ -22,8 +22,6 @@ end
 result_list = result_list.transpose
 
 (0..result_list.length - 1).each do |i|
-  (0..result_list[0].length - 1).each do |j|
-    print "#{result_list[i][j]}\t"
-  end
+  print result_list[i].join("\t")
   puts
 end
