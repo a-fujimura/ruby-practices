@@ -1,27 +1,30 @@
 #!/usr/bin/env ruby
 # frozen_string_literal: true
-
-files = Dir.glob("*")
-length_max = files.max_by(&:length).length
 COL_COUNT = 3
-row_count = files.length.ceildiv(COL_COUNT)
-filenames_matrix = Array.new(COL_COUNT) { Array.new(row_count, "") }
 
-item_count = 0
-
-(0..filenames_matrix.length - 1).each do |i|
-  (0..filenames_matrix[0].length - 1).each do |j|
-    view_str = files[item_count].to_s
-    view_str = view_str.ljust(length_max)
-    item_count += 1
-
-    filenames_matrix[i][j] = view_str
+def main
+  files = Dir.glob("*")
+  if files.length > 0
+    filenames_matrix = convert_matrix(files, COL_COUNT)
+    print_matrix(filenames_matrix)
   end
 end
 
-filenames_matrix = filenames_matrix.transpose
+def convert_matrix(array, col_count)
+  length_max = array.max_by(&:length).length
+  row_count = array.length.ceildiv(col_count)
 
-(0..filenames_matrix.length - 1).each do |i|
-  print filenames_matrix[i].join("\t")
-  puts
+  matrix = array.each_slice(row_count).map do |slice|
+    slice.fill("", slice.size...row_count)
+  end
+  return matrix.transpose
 end
+
+def print_matrix(matrix_data)
+  (0...matrix_data.length).each do |i|
+    print matrix_data[i].join("\t")
+    puts
+  end
+end
+
+main
