@@ -23,8 +23,7 @@ end
 
 def print_filenames_matrix(filenames_matrix, length_max)
   (0...filenames_matrix.length).each do |i|
-    filenames_matrix[i] = filenames_matrix[i].map { |element| element.ljust(length_max) }
-    print filenames_matrix[i].join("\t")
+    print filenames_matrix[i].map { |filename| filename.ljust(length_max) }.join("\t")
     puts
   end
 end
