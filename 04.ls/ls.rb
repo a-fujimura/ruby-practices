@@ -4,27 +4,27 @@
 COL_COUNT = 3
 
 def main
-  files = Dir.glob('*')
-  return unless files.length.positive?
+  filenames_array = Dir.glob("*")
+  return unless filenames_array.length.positive?
 
-  length_max = files.max_by(&:length).length
-  filenames_matrix = convert_matrix(files, COL_COUNT)
-  print_matrix(filenames_matrix, length_max)
+  length_max = filenames_array.max_by(&:length).length
+  filenames_matrix = convert_filenames_matrix(filenames_array, COL_COUNT)
+  print_filenames_matrix(filenames_matrix, length_max)
 end
 
-def convert_matrix(array, col_count)
-  row_count = array.length.ceildiv(col_count)
+def convert_filenames_matrix(filenames_array, col_count)
+  row_count = filenames_array.length.ceildiv(col_count)
 
-  matrix = array.each_slice(row_count).map do |slice|
-    slice.fill('', slice.size...row_count)
+  filenames_matrix = filenames_array.each_slice(row_count).map do |slice|
+    slice.fill("", slice.size...row_count)
   end
-  matrix.transpose
+  filenames_matrix.transpose
 end
 
-def print_matrix(matrix, length_max)
-  (0...matrix.length).each do |i|
-    matrix[i] = matrix[i].map { |element| element.ljust(length_max) }
-    print matrix[i].join("\t")
+def print_filenames_matrix(filenames_matrix, length_max)
+  (0...filenames_matrix.length).each do |i|
+    filenames_matrix[i] = filenames_matrix[i].map { |element| element.ljust(length_max) }
+    print filenames_matrix[i].join("\t")
     puts
   end
 end
