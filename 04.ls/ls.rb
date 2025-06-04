@@ -22,8 +22,8 @@ def convert_filenames_matrix(filenames_array, col_count)
 end
 
 def print_filenames_matrix(filenames_matrix, length_max)
-  (0...filenames_matrix.length).each do |i|
-    print filenames_matrix[i].map { |filename| filename.ljust(length_max) }.join("\t")
+  filenames_matrix.each do |filenames|
+    print filenames.map { |filename| filename.ljust(length_max) }.join("\t")
     puts
   end
 end
