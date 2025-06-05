@@ -1,13 +1,14 @@
 #!/usr/bin/env ruby
 # frozen_string_literal: true
-require "optparse"
 
 COL_COUNT = 3
 
 def main
-  filenames_array = ARGV.include?("-a") ?
-    Dir.glob("*", File::FNM_DOTMATCH) :
-    Dir.glob("*")
+  filenames_array = if ARGV.include?('-a')
+                      Dir.glob('*', File::FNM_DOTMATCH)
+                    else
+                      Dir.glob('*')
+                    end
 
   return unless filenames_array.length.positive?
 
@@ -20,7 +21,7 @@ def convert_filenames_matrix(filenames_array, col_count)
   row_count = filenames_array.length.ceildiv(col_count)
 
   filenames_matrix = filenames_array.each_slice(row_count).map do |slice|
-    slice.fill("", slice.size...row_count)
+    slice.fill('', slice.size...row_count)
   end
   filenames_matrix.transpose
 end
