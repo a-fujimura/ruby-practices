@@ -1,10 +1,22 @@
 #!/usr/bin/env ruby
 # frozen_string_literal: true
 
+require 'optparse'
+
 COL_COUNT = 3
 
 def main
-  filenames_array = Dir.glob('*')
+  a_option_flag = false
+
+  opt = OptionParser.new
+  opt.on('-a') do |option|
+    a_option_flag = option
+  end
+  opt.parse!
+
+  flags = a_option_flag ? File::FNM_DOTMATCH : 0
+  filenames_array = Dir.glob('*', flags)
+
   return unless filenames_array.length.positive?
 
   length_max = filenames_array.max_by(&:length).length
