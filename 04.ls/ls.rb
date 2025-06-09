@@ -6,15 +6,15 @@ require 'optparse'
 COL_COUNT = 3
 
 def main
-  a_option_flag = false
+  show_all = false
 
   opt = OptionParser.new
   opt.on('-a') do |option|
-    a_option_flag = option
+    show_all = option
   end
   opt.parse!
 
-  flags = a_option_flag ? File::FNM_DOTMATCH : 0
+  flags = show_all ? File::FNM_DOTMATCH : 0
   filenames_array = Dir.glob('*', flags)
 
   return unless filenames_array.length.positive?
