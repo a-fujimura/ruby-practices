@@ -7,15 +7,21 @@ COL_COUNT = 3
 
 def main
   show_all = false
+  show_reverse = false
 
   opt = OptionParser.new
   opt.on('-a') do |option|
     show_all = option
   end
+
+  opt.on('-r') do |option|
+    show_reverse = option
+  end
   opt.parse!
 
   flags = show_all ? File::FNM_DOTMATCH : 0
   filenames_array = Dir.glob('*', flags)
+  filenames_array.reverse! if show_reverse
 
   return unless filenames_array.length.positive?
 
