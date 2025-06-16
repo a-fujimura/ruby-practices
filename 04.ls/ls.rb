@@ -59,6 +59,7 @@ def print_filenames_array(filenames_array)
 
   filenames_array.each do |filename|
     next unless filename.length.positive?
+
     puts convert_filename_longformat(filename, hardlink_max, filesize_max)
   end
 end
