@@ -41,10 +41,10 @@ end
 def print_filenames_matrix(filenames_array, col_count)
   return unless filenames_array.length.positive?
 
-  length_max = filenames_array.max_by(&:length).length
+  max_filename_length = filenames_array.max_by(&:length).length
   filenames_matrix = convert_filenames_matrix(filenames_array, col_count)
   filenames_matrix.each do |filenames|
-    print filenames.map { |filename| filename.ljust(length_max) }.join("\t")
+    print filenames.map { |filename| filename.ljust(max_filename_length) }.join("\t")
     puts
   end
 end
