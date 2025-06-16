@@ -23,28 +23,26 @@ def main
   filenames_array = Dir.glob('*', flags)
   filenames_array.reverse! if show_reverse
 
-  return unless filenames_array.length.positive?
-
-  length_max = filenames_array.max_by(&:length).length
-  filenames_matrix = convert_filenames_matrix(filenames_array, COL_COUNT)
-
   if show_longformat
     print_filenames_array(filenames_array)
   else
-    print_filenames_matrix(filenames_matrix, length_max)
+    print_filenames_matrix(filenames_array, COL_COUNT)
   end
 end
 
 def convert_filenames_matrix(filenames_array, col_count)
   row_count = filenames_array.length.ceildiv(col_count)
-
   filenames_matrix = filenames_array.each_slice(row_count).map do |slice|
     slice.fill('', slice.size...row_count)
   end
   filenames_matrix.transpose
 end
 
-def print_filenames_matrix(filenames_matrix, length_max)
+def print_filenames_matrix(filenames_array, col_count)
+  return unless filenames_array.length.positive?
+
+  length_max = filenames_array.max_by(&:length).length
+  filenames_matrix = convert_filenames_matrix(filenames_array, col_count)
   filenames_matrix.each do |filenames|
     print filenames.map { |filename| filename.ljust(length_max) }.join("\t")
     puts
@@ -52,13 +50,15 @@ def print_filenames_matrix(filenames_matrix, length_max)
 end
 
 def print_filenames_array(filenames_array)
+  total = filenames_array.map { |filename| File.stat(filename).blocks }.sum
+  puts "total #{total}"
+  return unless filenames_array.length.positive?
+
   hardlink_max = filenames_array.map { |filename| File.stat(filename).nlink.to_s.length }.max
   filesize_max = filenames_array.map { |filename| File.stat(filename).size.to_s.length }.max
-  total_blocks = filenames_array.map { |filename| File.stat(filename).blocks }.sum
-  puts "total #{total_blocks}"
+
   filenames_array.each do |filename|
     next unless filename.length.positive?
-
     puts convert_filename_longformat(filename, hardlink_max, filesize_max)
   end
 end
