@@ -54,28 +54,35 @@ end
 def print_filenames_array(filenames_array)
   hardlink_max = filenames_array.map { |filename| File.stat(filename).nlink.to_s.length }.max
   filesize_max = filenames_array.map { |filename| File.stat(filename).size.to_s.length }.max
+  total_blocks = filenames_array.map { |filename| File.stat(filename).blocks }.sum
+  puts "total #{total_blocks}"
   filenames_array.each do |filename|
     next unless filename.length.positive?
 
-    file_stat = File.stat(filename)
-    file_type = file_stat.ftype == 'file' ? '-' : 'd'
-    permission = file_stat.mode & 0o777
-    user_perm  = PERMISSION_LIST[(permission / 0o100) % 0o10]
-    group_perm = PERMISSION_LIST[(permission / 0o10)  % 0o10]
-    other_perm = PERMISSION_LIST[permission % 0o10]
-    xattr_option = `xattr -l #{Shellwords.escape(filename)}`.length.positive? ? '@' : ' '
-
-    filename_info = "#{file_type}#{user_perm}#{group_perm}#{other_perm}#{xattr_option} "
-    filename_info += "#{file_stat.nlink.to_s.rjust(hardlink_max)} "
-    filename_info += "#{Etc.getpwuid(file_stat.uid).name}  "
-    filename_info += "#{Etc.getgrgid(file_stat.gid).name}  "
-    filename_info += "#{file_stat.size.to_s.rjust(filesize_max)} "
-    filename_info += "#{file_stat.mtime.strftime('%_m')} "
-    filename_info += "#{file_stat.mtime.strftime('%_d')} "
-    filename_info += "#{file_stat.mtime.strftime('%H:%M')} "
-    filename_info += filename.to_s
-    puts filename_info
+    puts convert_filename_longformat(filename, hardlink_max, filesize_max)
   end
+end
+
+def convert_filename_longformat(filename, hardlink_max, filesize_max)
+  file_stat = File.stat(filename)
+  file_type = file_stat.ftype == 'file' ? '-' : 'd'
+  file_permission = file_stat.mode & 0o777
+  user_permission  = PERMISSION_LIST[(file_permission / 0o100) % 0o10]
+  group_permission = PERMISSION_LIST[(file_permission / 0o10)  % 0o10]
+  other_permission = PERMISSION_LIST[file_permission % 0o10]
+  xattr_option = `xattr -l #{Shellwords.escape(filename)}`.length.positive? ? '@' : ' '
+
+  convert_filename = "#{file_type}#{user_permission}#{group_permission}#{other_permission}#{xattr_option} "
+  convert_filename += "#{file_stat.nlink.to_s.rjust(hardlink_max)} "
+  convert_filename += "#{Etc.getpwuid(file_stat.uid).name}  "
+  convert_filename += "#{Etc.getgrgid(file_stat.gid).name}  "
+  convert_filename += "#{file_stat.size.to_s.rjust(filesize_max)} "
+  convert_filename += "#{file_stat.mtime.strftime('%_m')} "
+  convert_filename += "#{file_stat.mtime.strftime('%_d')} "
+  convert_filename += "#{file_stat.mtime.strftime('%H:%M')} "
+  convert_filename += filename.to_s
+
+  convert_filename
 end
 
 main
