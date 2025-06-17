@@ -80,9 +80,8 @@ def convert_filename_longformat(filename, hardlink_max, filesize_max)
   user_permission  = PERMISSION_LIST[(file_permission / 0o100) % 0o10]
   group_permission = PERMISSION_LIST[(file_permission / 0o10)  % 0o10]
   other_permission = PERMISSION_LIST[file_permission % 0o10]
-  xattr_option = `xattr -l #{Shellwords.escape(filename)}`.length.positive? ? '@' : ' '
 
-  convert_filename = "#{file_type}#{user_permission}#{group_permission}#{other_permission}#{xattr_option} "
+  convert_filename = "#{file_type}#{user_permission}#{group_permission}#{other_permission} "
   convert_filename += "#{file_stat.nlink.to_s.rjust(hardlink_max)} "
   convert_filename += "#{Etc.getpwuid(file_stat.uid).name}  "
   convert_filename += "#{Etc.getgrgid(file_stat.gid).name}  "
