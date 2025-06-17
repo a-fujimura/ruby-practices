@@ -86,9 +86,7 @@ def convert_filename_longformat(filename, hardlink_max, filesize_max)
   convert_filename += "#{Etc.getpwuid(file_stat.uid).name}  "
   convert_filename += "#{Etc.getgrgid(file_stat.gid).name}  "
   convert_filename += "#{file_stat.size.to_s.rjust(filesize_max)} "
-  convert_filename += "#{file_stat.mtime.strftime('%_m')} "
-  convert_filename += "#{file_stat.mtime.strftime('%_d')} "
-  convert_filename += "#{file_stat.mtime.strftime('%H:%M')} "
+  convert_filename += "#{file_stat.mtime.strftime('%_m %_d %H:%M')} "
   convert_filename += filename.to_s
 
   convert_filename
