@@ -6,6 +6,15 @@ require 'shellwords'
 require 'etc'
 
 PERMISSION_LIST = ['---', '--x', '-w-', '-wx', 'r--', 'r-x', 'rw-', 'rwx'].freeze
+FILETYPE_LIST = {
+  'blockSpecial'     => 'b',
+  'characterSpecial' => 'c',
+  'directory'        => 'd',
+  'link'             => 'l',
+  'socket'           => 's',
+  'fifo'             => 'p',
+  'file'             => '-'
+}
 COL_COUNT = 3
 
 def main
@@ -66,7 +75,7 @@ end
 
 def convert_filename_longformat(filename, hardlink_max, filesize_max)
   file_stat = File.stat(filename)
-  file_type = file_stat.ftype == 'file' ? '-' : 'd'
+  file_type = FILETYPE_LIST[file_stat.ftype]
   file_permission = file_stat.mode & 0o777
   user_permission  = PERMISSION_LIST[(file_permission / 0o100) % 0o10]
   group_permission = PERMISSION_LIST[(file_permission / 0o10)  % 0o10]
