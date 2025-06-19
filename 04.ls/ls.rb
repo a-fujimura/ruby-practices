@@ -7,14 +7,14 @@ require 'etc'
 
 PERMISSION_LIST = ['---', '--x', '-w-', '-wx', 'r--', 'r-x', 'rw-', 'rwx'].freeze
 FILETYPE_LIST = {
-  'blockSpecial'     => 'b',
+  'blockSpecial' => 'b',
   'characterSpecial' => 'c',
-  'directory'        => 'd',
-  'link'             => 'l',
-  'socket'           => 's',
-  'fifo'             => 'p',
-  'file'             => '-'
-}
+  'directory' => 'd',
+  'link' => 'l',
+  'socket' => 's',
+  'fifo' => 'p',
+  'file' => '-'
+}.freeze
 COL_COUNT = 3
 
 def main
