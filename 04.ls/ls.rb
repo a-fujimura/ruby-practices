@@ -75,7 +75,8 @@ end
 
 def convert_filename_longformat(filename, hardlink_max, filesize_max)
   file_stat = File.stat(filename)
-  file_type = FILETYPE_LIST[file_stat.ftype]
+  file_lstat = File.lstat(filename)
+  file_type = FILETYPE_LIST[file_lstat.ftype]
   file_permission = file_stat.mode & 0o777
   user_permission  = PERMISSION_LIST[(file_permission / 0o100) % 0o10]
   group_permission = PERMISSION_LIST[(file_permission / 0o10)  % 0o10]
