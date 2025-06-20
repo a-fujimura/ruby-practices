@@ -2,7 +2,6 @@
 # frozen_string_literal: true
 
 require 'optparse'
-require 'shellwords'
 require 'etc'
 
 PERMISSION_LIST = ['---', '--x', '-w-', '-wx', 'r--', 'r-x', 'rw-', 'rwx'].freeze
